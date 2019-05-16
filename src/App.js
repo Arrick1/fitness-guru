@@ -33,14 +33,14 @@ class App extends Component {
     this.props.history.push(routes.LOGIN)
   }
 
-  async componentDidMount(){
-    await fetch('/users/logout')
-    this.getExercise().then(data =>
-      this.setState({
-        exercise: data.data.results
-      })
-    ) 
-  }
+  // async componentDidMount(){
+  //   await fetch('/users/logout')
+  //   this.getExercise().then(data =>
+  //     this.setState({
+  //       exercise: data.data.results
+  //     })
+  //   ) 
+  // }
 
   getExercise = async() => {
     try {
@@ -88,7 +88,7 @@ class App extends Component {
     return (
       <div className="body">
       <div className="grid-container">
-        <div className='grid-header'><h1>FITNESS GURU</h1></div>
+        {/* <div className='grid-header'><h1>FITNESS GURU</h1></div> */}
         <div className='grid-nav'><NavBar doLogout={this.doLogout} currentUser={this.state.currentUser}/>
           <Switch>
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={this.state.currentUser} doSetCurrentUser={this.doSetCurrentUser}/>}/>
