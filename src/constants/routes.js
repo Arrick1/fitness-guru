@@ -1,0 +1,7 @@
+export const ROOT = '/'
+export const POSTS = '/posts'
+export const PROFILE = '/profile'
+export const EXERCISE= '/exercise'
+export const LOGIN= '/login'
+export const LOGOUT= '/logout'
+export const REGISTER= '/register'
