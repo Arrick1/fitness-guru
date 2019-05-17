@@ -15,12 +15,20 @@ const Exercise = (props) =>  {
     )
     return(
         <div> 
-            <h2>Exercise page</h2>
-            <div className="eList">     {props.exercise
-                ? <ul>{exerciseList}</ul>
-                : <h1>Loading...</h1>
-            }
-            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h2>Exercise page</h2>
+                </div>
+                <div class="col s6">User Information goes here</div>
+                <div class="col s6">
+                    <div className="eList">     
+                    {props.exercise
+                ?<ul>{exerciseList}</ul>
+                : <div></div>
+                    }
+                    </div>
+                </div>
+            </div> 
         </div>
     )
 

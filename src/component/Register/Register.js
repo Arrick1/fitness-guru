@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import * as routes from '../../constants/routes'
+import './Register.css'
 
 
 class Register extends Component {
@@ -61,10 +62,10 @@ class Register extends Component {
 const RegisterForm = ({ changeHandler, onSubmit, username, password }) =>
                 <form onSubmit ={e => onSubmit(e)}>
                     <label htmlFor='username'> USERNAME</label>
-                    <input onChange={e => changeHandler(e)} type='text' name="username" placeholder="Username" value={username} /> <br/>
+                    <input onChange={e => changeHandler(e)} type='text' name="username"  value={username} /> <br/>
                     <label htmlFor='password'> PASSWORD</label>
-                    <input onChange={e => changeHandler(e)} type='password' name="password" placeholder="Password" value={password}/><br/>
-                    <button type="submit">Register</button>
+                    <input onChange={e => changeHandler(e)} type='password' name="password" value={password}/><br/>
+                    <button className="navButton" type="submit">Register</button>
                 </form>
 
 

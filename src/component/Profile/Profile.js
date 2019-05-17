@@ -21,12 +21,18 @@ class Profile extends Component {
 
     }
 
-     deleteItem = i => 
-  this.setState({
-    exercise: this.state.exercise.filter((exercise, index) =>
-    index !== i
-    )
-  })
+    deleteItem = async i => {
+        const deleteItem = await fetch(`/users/delete/${i}`, {
+             method: 'DELETE'
+         })
+         const workouts = await fetch('/users/profile')
+        const parsedWorkouts = await workouts.json()
+        const parsedResponse = await deleteItem.json()
+        this.setState({
+            currentUser: parsedResponse.user,
+            workouts: parsedWorkouts.workouts
+            })
+    }
     render () {
         return(
             <div>

@@ -2,8 +2,6 @@ import React,{ Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-
 // Components 
 import NavBar from './component/NavBar/Navbar'
 import Login from './component/Login/Login'
@@ -86,25 +84,20 @@ class App extends Component {
     console.log(this.state.exercise)
     const{ exercise } = this.state
     return (
-      <div className="body">
-      <div className="grid-container">
-        {/* <div className='grid-header'><h1>FITNESS GURU</h1></div> */}
-        <div className='grid-nav'><NavBar doLogout={this.doLogout} currentUser={this.state.currentUser}/>
+      <div>
+        <div><NavBar doLogout={this.doLogout} currentUser={this.state.currentUser}/>
           <Switch>
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={this.state.currentUser} doSetCurrentUser={this.doSetCurrentUser}/>}/>
           <Route exact path={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser} doSetCurrentUser={this.doSetCurrentUser} />}/>
           <Route exact path={routes.ROOT} render={() => <div>This is the Root page</div>} />     
           <Route exact path= {`${routes.PROFILE}/:id`} render={() => <div><Profile currentUser={this.state.currentUser}/> </div> } />
           <Route exact path={routes.POSTS}  render={() => <div>This is the posts page  </div>} />
-          <Route exact path={routes.EXERCISE} render={() => <div className='grid-left'>This is the Exercise page <br/> <Exercise exercise={exercise} deleteItem={this.deleteItem} addExercise={this.addExercise}/></div> } />
+          <Route exact path={routes.EXERCISE} render={() => <Exercise exercise={exercise} deleteItem={this.deleteItem} addExercise={this.addExercise}/> } />
           <Route render={() => <div>NotFound</div>} />
           </Switch>
         </div>
-        {/* <div className='grid-right'>This is the text</div>
-        <div className='grid-left'>This is the image</div>
-        <div className='grid-footer'>this is the footer</div> */}
       </div>
-      </div>
+      
     );
 
   }

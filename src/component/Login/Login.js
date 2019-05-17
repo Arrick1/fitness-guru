@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import './Login.css'
 
 class Login extends Component {
     state={
@@ -43,10 +44,13 @@ class Login extends Component {
      return (
        this.state.logged
        ? <Redirect to={`/profile/${this.props.currentUser._id}`} />
-       : <form onSubmit={this.onSubmit}>
-            <input type='text' name="username" value={username} onChange={this.changeHandler}/>
-            <input type='password' name="password" value={password} onChange={this.changeHandler}/>
-            <button type="submit">Login</button> 
+       :
+       <form onSubmit={this.onSubmit}>
+        <label htmlFor='username'> USERNAME</label>
+        <input type='text' name="username" value={username} onChange={this.changeHandler}/>
+        <label htmlFor='password'> PASSWORD</label>
+        <input type='password' name="password" value={password} onChange={this.changeHandler}/>
+        <button className="navButton" type="submit">Login</button> 
             {
               this.state.message
             }

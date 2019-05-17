@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import EditUser from '../EditUser/EditUser'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class ShowUser extends Component {
     state = {
