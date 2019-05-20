@@ -22,10 +22,10 @@ class Profile extends Component {
     }
 
     deleteItem = async i => {
+        const workouts = await fetch('/users/profile')
         const deleteItem = await fetch(`/users/delete/${i}`, {
              method: 'DELETE'
          })
-         const workouts = await fetch('/users/profile')
         const parsedWorkouts = await workouts.json()
         const parsedResponse = await deleteItem.json()
         this.setState({

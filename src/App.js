@@ -8,6 +8,7 @@ import Login from './component/Login/Login'
 import Register from './component/Register/Register'
 import Exercise from './component/Exercise/Exercise'
 import Profile from "./component/Profile/Profile"
+import Home from './component/Home/Home'
 
 import * as routes from './constants/routes'
 import './App.css';
@@ -89,9 +90,9 @@ class App extends Component {
           <Switch>
           <Route exact path={routes.LOGIN} render={()=> <Login currentUser={this.state.currentUser} doSetCurrentUser={this.doSetCurrentUser}/>}/>
           <Route exact path={routes.REGISTER} render={()=> <Register currentUser={this.state.currentUser} doSetCurrentUser={this.doSetCurrentUser} />}/>
-          <Route exact path={routes.ROOT} render={() => <div>This is the Root page</div>} />     
+          <Route exact path={routes.ROOT} render={() =>  <div> <Home/></div>} />     
           <Route exact path= {`${routes.PROFILE}/:id`} render={() => <div><Profile currentUser={this.state.currentUser}/> </div> } />
-          <Route exact path={routes.POSTS}  render={() => <div>This is the posts page  </div>} />
+          <Route exact path={routes.EDIT}  render={() => <div>This is the Edit page  </div>} />
           <Route exact path={routes.EXERCISE} render={() => <Exercise exercise={exercise} deleteItem={this.deleteItem} addExercise={this.addExercise}/> } />
           <Route render={() => <div>NotFound</div>} />
           </Switch>

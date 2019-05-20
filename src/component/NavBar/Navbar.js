@@ -16,7 +16,9 @@ const Nav = ({currentUser, doLogout}) =>
           {
             currentUser && <NavLink to={`${routes.PROFILE}/${currentUser._id}`} exact activeClassName='selected' ><button className="navButton">Profile</button></NavLink> 
           }
-          {/* <NavLink to={routes.POSTS} exact activeClassName='selected' ><button className="navButton">POSTS</button></NavLink>  */}
+          {
+          currentUser && <NavLink to={`${routes.EDIT}/${currentUser._id} `}exact activeClassName='selected' ><button className="navButton">Edit</button></NavLink> 
+          }
           <NavLink to={routes.EXERCISE} exact activeClassName='selected'><button className="navButton">Exercises</button></NavLink>  
           {
         currentUser
