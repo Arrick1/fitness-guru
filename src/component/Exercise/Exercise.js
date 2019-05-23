@@ -23,8 +23,8 @@ const Exercise = (props) =>  {
                 <div class="col s6">
                     <div className="eList">     
                     {props.exercise
-                ?<ul>{exerciseList}</ul>
-                : <div></div>
+                        ?<ul>{exerciseList}</ul>
+                        : <div></div>
                     }
                     </div>
                 </div>

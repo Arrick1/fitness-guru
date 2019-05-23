@@ -38,7 +38,7 @@ router.post('/login', async (req, res)=> {
         success: foundUser ? true : false
       });
     }else {
-      res.json({message})
+      // res.json({message})
     }
   } catch (err) {
     res.json({err})

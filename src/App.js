@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 // Components 
 import NavBar from './component/NavBar/Navbar'
@@ -17,6 +17,14 @@ class App extends Component {
   state = {
     currentUser: null,
     exercise: []
+  }
+
+  componentDidMount(){
+    this.getExercise().then(data=>{
+      this.setState({
+        exercise: data.data.results
+      })
+    })
   }
 
   doSetCurrentUser = user =>
@@ -48,6 +56,7 @@ class App extends Component {
         throw Error(exercise.response.statusText)
       }
       const exerciseJson = await exercise.json()
+      console.log(exerciseJson)
       return exerciseJson
       
     } catch (err) {
