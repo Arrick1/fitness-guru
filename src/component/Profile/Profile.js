@@ -41,16 +41,17 @@ class Profile extends Component {
                     const videoLink = w.description.split('https')[1] && `https${w.description.split('https')[1].replace('watch?v=', 'embed/').replace('</p>', '')}`
                     console.log(videoLink)
                     return (
-                        <div>
+                        <div key={i}>
                             
                             <h1>{w.name}</h1>
-                            <p>{parse(w.description)}</p>
+                            <h4>{parse(w.description)}</h4>
                             {
                                 videoLink
-                                    && <iframe  width='400px' height='300px' src={ videoLink } />
+                                    && <iframe title="display"  width='400px' height='300px' src={ videoLink } />
                             }
                             
                             <button>Delete</button>
+
                         </div>
                     )
                 })}
