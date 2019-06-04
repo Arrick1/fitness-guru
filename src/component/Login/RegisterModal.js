@@ -45,7 +45,7 @@ position: absolute;
         cursor: pointer;
       }
     }
-    .cancel-button {
+    .button {
       top: -2%;
       margin-left: 20px;
       background-color: rgb(0,0,0, .0);
@@ -54,12 +54,6 @@ position: absolute;
         background-color: orange;
         color: white;
       }
-    }
-    .button {
-      font-size: 2em;
-      height: 2.5em;
-      width: 5em;
-      margin-bottom: .5em;
     }
   input {
     width: 70%;
@@ -92,6 +86,7 @@ const Header = styled.header`
 class RegisterModal extends Component {
     state = {
         username:'',
+        email: '',
         password: '',
         verify_Password:'',
         logged: false,
@@ -116,16 +111,15 @@ class RegisterModal extends Component {
             if(parsedResponse.user){
                 this.props.doSetCurrentUser(parsedResponse.data)
                 this.setState({
-                    logged: true
+                    logged: true,
                 })
             }
     }
-
     render(){
         const { username, password } = this.state
         return(
             <Modal>
-                <div> This is the Register Modal</div>
+                <Header>REGISTER</Header>
                 <form onSubmit={e => this.doRegisterUser(e)}>
                     <input
                         name="username" 
@@ -140,12 +134,13 @@ class RegisterModal extends Component {
                     />
                     <div>
                         <button 
-                            onClick={this.doLoginUser} className="button"> Register
+                            onClick={this.doRegisterUser} 
+                            className="button">Register  
                         </button>
                     </div>
                     <div>
                         <button 
-                            onClick={this.props.hideLoginModal} className="cancel-button button"> Cancel
+                            onClick={this.props.hideRegisterModal} className="button"> Cancel
                         </button>
                     </div>
                 </form>

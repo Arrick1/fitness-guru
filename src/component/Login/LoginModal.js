@@ -1,4 +1,5 @@
 import React, {Component}  from 'react'
+import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 
 /* <----------- styled components -----------> */
@@ -45,22 +46,16 @@ position: absolute;
         cursor: pointer;
       }
     }
-    .cancel-button {
-      top: -2%;
-      margin-left: 20px;
-      background-color: rgb(0,0,0, .0);
-      &:hover {
-        border: 4px solid orange;
-        background-color: orange;
-        color: white;
-      }
-    }
     .button {
-      font-size: 2em;
-      height: 2.5em;
-      width: 5em;
-      margin-bottom: .5em;
-    }
+        top: -2%;
+        margin-left: 20px;
+        background-color: rgb(0,0,0, .0);
+        &:hover {
+          border: 4px solid orange;
+          background-color: orange;
+          color: white;
+        }
+      }
   input {
     width: 70%;
     padding-top: 5%;
@@ -115,7 +110,7 @@ class LoginModal extends Component {
             if(parsedResponse.data){
                 this.props.doSetCurrentUser(parsedResponse.data)
                 this.setState({
-                    logged: true
+                    logged: true,
                 })
             } else {
                 this.setState({
@@ -126,10 +121,13 @@ class LoginModal extends Component {
     }
 
     render(){
-        const { username, password } = this.state
+        const { username, password, logged } = this.state
         return(
+            logged
+            ? <Redirect to={`/profile/${this.props.currentUser._id}`}/>
+            :
             <Modal>
-                <div> This is the login Modal</div>
+                <Header> LOGIN</Header>
                 <form onSubmit={e => this.doLoginUser}>
                     <input
                         name="username" type="text" placeholder="USERNAME" value={username} onChange={this.handleChange}
@@ -144,7 +142,7 @@ class LoginModal extends Component {
                     </div>
                     <div>
                         <button 
-                            onClick={this.props.hideLoginModal} className="cancel-button button"> Cancel
+                            onClick={this.props.hideLoginModal} className="button"> Cancel
                         </button>
                     </div>
                 </form>

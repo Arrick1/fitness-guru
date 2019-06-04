@@ -6,16 +6,16 @@ import styled from 'styled-components'
 // Components 
 import NavBar from './component/NavBar/Navbar'
 import Login from './component/Login/Login'
-import Register from './component/Register/Register'
 import Exercise from './component/Exercise/Exercise'
 import Profile from "./component/Profile/Profile"
 import Home from './component/Home/Home'
 
 import * as routes from './constants/routes'
+import EditUser from './component/EditUser/EditUser';
 
 class App extends Component {
   state = {
-    currentUser: null,
+    currentUser: {},
     exercise: []
   }
 
@@ -28,7 +28,7 @@ class App extends Component {
     })
   }
 
-  doSetCurrentUser = user =>
+  doSetCurrentUser = (user) =>
   this.setState({
     currentUser: user
   })
@@ -84,11 +84,18 @@ class App extends Component {
     console.log(this.state.exercise)
     const{ exercise, currentUser } = this.state
     return (
-      <div>
-        <div><NavBar doLogout={this.doLogout} currentUser={currentUser}/>
+      <div className="container">
+        <div>
+          <NavBar 
+              doLogout={this.doLogout} 
+              currentUser={currentUser}
+          />
           <Switch>
-            <Route exact path={routes.LOGIN} render={()=> <Login currentUser={currentUser} 
-              doSetCurrentUser={this.doSetCurrentUser}/>}/>
+            <Route exact path={routes.LOGIN} 
+              render={()=> <Login 
+              currentUser={currentUser} 
+              doSetCurrentUser={this.doSetCurrentUser}/>}
+            />
 
             {/* <Route exact path={routes.REGISTER} render={()=> <Register currentUser={currentUser}  doSetCurrentUser={this.doSetCurrentUser}/>}/> */}
 
@@ -96,7 +103,8 @@ class App extends Component {
 
             <Route exact path= {`${routes.PROFILE}/:id`} render={() => <Profile currentUser={currentUser}/>}/>
 
-            <Route exact path={routes.EDIT}  render={() => <div>This is the Edit page  </div>} />
+            <Route exact path={`${routes.EDIT}/:id`}  render={() => <EditUser currentUser={currentUser}/>} 
+            />
 
             <Route exact path={routes.EXERCISE} render={() => <Exercise exercise={exercise} deleteItem={this.deleteItem} addExercise={this.addExercise}/> } />
           

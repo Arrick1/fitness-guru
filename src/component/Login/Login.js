@@ -7,12 +7,12 @@ import RegisterModal from './RegisterModal'
 
 /* <----------- styled components -----------> */
 const Container = styled.div`
-  // background-image: url('https://i.imgur.com/ZtdwQ6Z.jpg');
+  background-image: url('https://i.imgur.com/ZtdwQ6Z.jpg');
   background-size: cover;
   height:100vh;
 `
 const Main = styled.div`
-  background-color: rgb(0,0,0,.8);
+  // background-color: rgb(0,0,0,.8);
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -46,9 +46,6 @@ const Buttons = styled.section`
 
 class Login extends Component {
     state={
-        // username:'',
-        // password:'',
-        // logged: false,
         registerModal: false,
         loginModal: false
     }
@@ -64,14 +61,8 @@ class Login extends Component {
     hideLoginModal = () => {
       this.setState({ loginModal: false })
     }
-
     render() {
-      const {username, password, message, logged} = this.state
-      console.log(this.props)
      return (
-       logged
-       ? <Redirect to={`/profile/${this.props.currentUser._id}`} />
-       :
        <Container>
           <Buttons>
             <button type="button" onClick={this.showRegisterModal}>
@@ -81,7 +72,6 @@ class Login extends Component {
               Login
             </button>
           </Buttons>
-
           <Main>
           {
           this.state.registerModal
@@ -97,6 +87,7 @@ class Login extends Component {
         {
           this.state.loginModal
           ? <LoginModal
+              currentUser={this.props.currentUser}
               doSetCurrentUser={this.props.doSetCurrentUser}
               handleLogin={this.props.handleLogin}
               hideLoginModal={ this.hideLoginModal }
@@ -105,7 +96,6 @@ class Login extends Component {
           : < div />
         }
          </Main>
-
         </Container>
         )
     }

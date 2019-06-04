@@ -9,9 +9,9 @@ import 'materialize-css/dist/css/materialize.min.css'
 
 const Nav = ({currentUser, doLogout}) => 
 
-<nav>
-<div>
-  <a href="/" className="brand-logo center">Fitness-Guru</a>
+<nav >
+<div className="nav-wrapper">
+  <a href="/" className="brand-logo right">Fitness-Guru</a>
   <div className='nav black'  >
           {
             currentUser && <NavLink to={`${routes.PROFILE}/${currentUser._id}`} exact activeClassName='selected' ><button className="navButton">Profile</button></NavLink> 
