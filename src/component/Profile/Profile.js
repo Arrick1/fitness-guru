@@ -39,7 +39,6 @@ class Profile extends Component {
                 <div><ShowUser currentUser={this.props.currentUser} /></div>
                 {this.state.workouts.map((w, i) => {
                     const videoLink = w.description.split('https')[1] && `https${w.description.split('https')[1].replace('watch?v=', 'embed/').replace('</p>', '')}`
-                    console.log(videoLink)
                     return (
                         <div key={i}>
                             

@@ -62,6 +62,7 @@ class Login extends Component {
       this.setState({ loginModal: false })
     }
     render() {
+      console.log(this.props.currentUser)
      return (
        <Container>
           <Buttons>
@@ -87,12 +88,13 @@ class Login extends Component {
         {
           this.state.loginModal
           ? <LoginModal
-              currentUser={this.props.currentUser}
-              doSetCurrentUser={this.props.doSetCurrentUser}
-              handleLogin={this.props.handleLogin}
-              hideLoginModal={ this.hideLoginModal }
-              showRegisterModal={ this.showRegisterModal }
-            />
+          isLogged={this.props.isLogged}
+          currentUser={this.props.currentUser}
+          doSetCurrentUser={this.props.doSetCurrentUser}
+          doLoginUser={this.props.doLoginUser}
+          hideLoginModal={ this.hideLoginModal }
+          showRegisterModal={ this.showRegisterModal }
+        />
           : < div />
         }
          </Main>

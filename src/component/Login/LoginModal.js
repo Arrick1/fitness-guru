@@ -88,9 +88,9 @@ class LoginModal extends Component {
     state = {
         username:'',
         password: '',
-        logged: false,
+        // currentUser: {},
+        logged: false
       }
-      
     handleChange = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -109,8 +109,10 @@ class LoginModal extends Component {
         const parsedResponse = await loginResponse.json()
             if(parsedResponse.data){
                 this.props.doSetCurrentUser(parsedResponse.data)
+                localStorage.setItem('current', JSON.stringify(parsedResponse.user))
                 this.setState({
                     logged: true,
+                    currentUser: parsedResponse.user
                 })
             } else {
                 this.setState({
@@ -120,15 +122,22 @@ class LoginModal extends Component {
 
     }
 
+    loginHandler = (e) =>{
+        e.preventDefault();
+        this.props.doLoginUser(this.state)
+    }
+
     render(){
-        const { username, password, logged } = this.state
+        const { username, password } = this.state
+        console.log(this.props.currentUser)
         return(
-            logged
+            this.props.isLogged
             ? <Redirect to={`/profile/${this.props.currentUser._id}`}/>
             :
             <Modal>
                 <Header> LOGIN</Header>
-                <form onSubmit={e => this.doLoginUser}>
+                {/* <form onSubmit={e => this.doLoginUser}> */}
+                    <form>
                     <input
                         name="username" type="text" placeholder="USERNAME" value={username} onChange={this.handleChange}
                     />
@@ -137,7 +146,7 @@ class LoginModal extends Component {
                     />
                     <div>
                         <button 
-                            onClick={this.doLoginUser} className="button"> Login
+                            onClick={this.loginHandler} className="button"> Login
                         </button>
                     </div>
                     <div>
@@ -147,6 +156,7 @@ class LoginModal extends Component {
                     </div>
                 </form>
             </Modal>
+            
         )
     }
 }

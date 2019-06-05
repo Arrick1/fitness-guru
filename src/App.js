@@ -16,27 +16,67 @@ import EditUser from './component/EditUser/EditUser';
 class App extends Component {
   state = {
     currentUser: {},
-    exercise: []
+    exercise: [],
+    message: '',
+    logged: false
   }
 
   componentDidMount(){
+    const user = localStorage.getItem("current")
+    const parsedUser= JSON.parse(user)
     this.getExercise()
     .then(data=>{
+      if(user){
         this.setState({
-          exercise: data.data.results
+          exercise: data.data.results,
+          currentUser: parsedUser
         })
-    })
-  }
+      }else{
+          this.setState({
+            exercise: data.data.results
+          })
+        }
+      }
+    )
+}
 
   doSetCurrentUser = (user) =>
   this.setState({
     currentUser: user
   })
+  doLoginUser = async (info) => {
+    const loginResponse = await fetch('/users/login', {
+        method: "POST",
+        credentials: 'include',
+        body: JSON.stringify(info),
+        headers: {
+            'Content-Type' : 'application/json'
+        }
+    }) 
+    const parsedResponse = await loginResponse.json()
+        if(parsedResponse.data){
+            this.doSetCurrentUser(parsedResponse.data)
+            localStorage.setItem("current", JSON.stringify(parsedResponse.data))
+            console.log("logged in")
+            console.log(parsedResponse.data)
+            this.setState({
+                logged: true,
+                currentUser: parsedResponse.data
+            })
+        } else {
+          console.log('not logged in')
+            this.setState({
+                message: 'Invalid Login Credentials'
+            })
+        }
 
+}
   doLogout = async () =>{
     await fetch('/users/logout')
+    localStorage.clear()
     this.setState({
-      currentUser: null
+      currentUser: {},
+      logged:false
     })
     this.props.history.push(routes.LOGIN)
   }
@@ -93,8 +133,10 @@ class App extends Component {
           <Switch>
             <Route exact path={routes.LOGIN} 
               render={()=> <Login 
-              currentUser={currentUser} 
-              doSetCurrentUser={this.doSetCurrentUser}/>}
+                              isLogged={this.state.logged}
+                              doLoginUser={this.doLoginUser}
+                              currentUser={currentUser} 
+                              doSetCurrentUser={this.doSetCurrentUser}/>}
             />
 
             {/* <Route exact path={routes.REGISTER} render={()=> <Register currentUser={currentUser}  doSetCurrentUser={this.doSetCurrentUser}/>}/> */}
