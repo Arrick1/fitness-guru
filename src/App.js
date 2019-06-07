@@ -1,6 +1,5 @@
 import React,{ Component } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom'
-import styled from 'styled-components'
 
 
 // Components 
@@ -10,8 +9,11 @@ import Exercise from './component/Exercise/Exercise'
 import Profile from "./component/Profile/Profile"
 import Home from './component/Home/Home'
 
+
 import * as routes from './constants/routes'
 import EditUser from './component/EditUser/EditUser';
+
+import './App.css'
 
 class App extends Component {
   state = {
@@ -20,10 +22,10 @@ class App extends Component {
     message: '',
     logged: false
   }
-
-  componentDidMount(){
-    const user = localStorage.getItem("current")
-    const parsedUser= JSON.parse(user)
+  
+  async componentDidMount(){
+    const user = await localStorage.getItem("current")
+    const parsedUser=  await JSON.parse(user)
     this.getExercise()
     .then(data=>{
       if(user){
@@ -38,20 +40,40 @@ class App extends Component {
         }
       }
     )
-}
+  }
 
   doSetCurrentUser = (user) =>
-  this.setState({
-    currentUser: user
-  })
+    this.setState({
+      currentUser: user
+    })
+
+  doRegisterUser = async (e) => {
+    e.preventDefault()
+    const registerResponse = await fetch('/users/register', {
+          method: "POST",
+          credentials: 'include',
+          body: JSON.stringify(this.state),
+          headers: {
+            'Content-Type' : 'application/json'
+          }
+    }) 
+    const parsedResponse = await registerResponse.json()
+    if(parsedResponse.data){
+      this.props.doSetCurrentUser(parsedResponse.data)
+      this.setState({
+        logged: true,
+        currentUser: parsedResponse.data
+      })
+    }
+  }
   doLoginUser = async (info) => {
     const loginResponse = await fetch('/users/login', {
-        method: "POST",
-        credentials: 'include',
-        body: JSON.stringify(info),
-        headers: {
+           method: "POST",
+           credentials: 'include',
+           body: JSON.stringify(info),
+           headers: {
             'Content-Type' : 'application/json'
-        }
+          }
     }) 
     const parsedResponse = await loginResponse.json()
         if(parsedResponse.data){
@@ -63,14 +85,46 @@ class App extends Component {
                 logged: true,
                 currentUser: parsedResponse.data
             })
-        } else {
+        } else{
           console.log('not logged in')
             this.setState({
                 message: 'Invalid Login Credentials'
             })
         }
-
-}
+  }
+  doEditUser = async (info) => {
+    try {
+      console.log(this.state.user._id, "<-- this.state.user._id");
+      const updateUser = await fetch(`/users/update/${this.currentUser._id}`, {
+        method: "PUT",
+        credentials: "include",
+        body: JSON.stringify(this.state),
+        headers: {
+          "Content-type": "application/json"
+        }
+      });
+      const parsedUser = await updateUser.json();
+      console.log(
+        parsedUser,
+        "<-- parsedUser in doEditUser function in ShowUser.js"
+      );
+      return parsedUser;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  submitEdit = e => {
+    e.preventDefault();
+    this.doEditUser().then(response => {
+      console.log(
+        response,
+        "<-- response in submitEdit function in ShowUser.js"
+      );
+      this.setState({
+        user: response.updateUser
+      });
+    });
+  };
   doLogout = async () =>{
     await fetch('/users/logout')
     localStorage.clear()
@@ -80,28 +134,17 @@ class App extends Component {
     })
     this.props.history.push(routes.LOGIN)
   }
-
   getExercise = async() => {
     try {
       const exercise = await fetch('/api/exercise')
       const exerciseJson = await exercise.json()
       console.log(exerciseJson)
-
       return exerciseJson
-      
     } catch (err) {
-      console.log(err, 'err in the catch block')
+        console.log(err, 'err in the catch block')
       return err
     }
-
   }
-  deleteItem = i => 
-  this.setState({
-    exercise: this.state.exercise.filter((exercise, index) =>
-    index !== i
-    )
-  })
-
   addExercise = async (obj) =>{
     const response = await fetch('/users/add',{
       method:"POST",
@@ -116,40 +159,58 @@ class App extends Component {
       this.setState({
       exercise: this.state.exercise.filter((exercise, index) => exercise.id !== obj.id)
     })
-    }
-
+    }  
   }
-
+  deleteItem = i => 
+  this.setState({
+    exercise: this.state.exercise.filter((exercise, index) =>
+    index !== i
+    )
+  })
   render() {
     console.log(this.state.exercise)
-    const{ exercise, currentUser } = this.state
+    const{ exercise, currentUser, message } = this.state
     return (
-      <div className="container">
+      <div>
         <div>
           <NavBar 
               doLogout={this.doLogout} 
               currentUser={currentUser}
           />
           <Switch>
-            <Route exact path={routes.LOGIN} 
-              render={()=> <Login 
-                              isLogged={this.state.logged}
-                              doLoginUser={this.doLoginUser}
-                              currentUser={currentUser} 
-                              doSetCurrentUser={this.doSetCurrentUser}/>}
+            <Route exact path={routes.LOGIN} render={()=> 
+              <Login 
+                isLogged={this.state.logged}
+                doLoginUser={this.doLoginUser}
+                doRegisterUser={this.doRegisterUser}
+                currentUser={currentUser} 
+                doSetCurrentUser={this.doSetCurrentUser}
+                message={message}
+              />}
             />
-
-            {/* <Route exact path={routes.REGISTER} render={()=> <Register currentUser={currentUser}  doSetCurrentUser={this.doSetCurrentUser}/>}/> */}
-
-            <Route exact path={routes.ROOT} render={()=> <Home/>}/> 
-
-            <Route exact path= {`${routes.PROFILE}/:id`} render={() => <Profile currentUser={currentUser}/>}/>
-
-            <Route exact path={`${routes.EDIT}/:id`}  render={() => <EditUser currentUser={currentUser}/>} 
+            <Route exact path={routes.ROOT} render={()=> 
+              <Home/>
+              }
+            /> 
+            <Route exact path={`${routes.PROFILE}/:id`} render={()=> 
+              <Profile 
+                currentUser={currentUser}
+              />}
             />
-
-            <Route exact path={routes.EXERCISE} render={() => <Exercise exercise={exercise} deleteItem={this.deleteItem} addExercise={this.addExercise}/> } />
-          
+            <Route exact path={`${routes.EDIT}/:id`} render={()=> 
+              <EditUser 
+                isLogged={this.isLogged}
+                currentUser={currentUser}
+                doSetCurrentUser={this.doSetCurrentUser}
+              />} 
+            />
+            <Route exact path={routes.EXERCISE} render={() => 
+              <Exercise 
+                exercise={exercise} 
+                deleteItem={this.deleteItem} 
+                addExercise={this.addExercise}
+              />} 
+            />
             <Route render={() => <div>NotFound</div>} />
           </Switch>
         </div>

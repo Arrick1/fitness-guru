@@ -32,3 +32,11 @@
   }
 }
  */
+
+.link{
+  align-self: center;
+}
+ .dropdown-item .nav-link {
+   color: black!important;
+   text-align: center;
+ } 

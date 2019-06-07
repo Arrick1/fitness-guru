@@ -1,48 +1,32 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 
-/* <----------- styled components -----------> */
-const Container = styled.div`
-  background-image: url('https://i.imgur.com/ZtdwQ6Z.jpg');
-  background-size: cover;
-  height:100vh;
-`
-const Main = styled.div`
-  // background-color: rgb(0,0,0,.8);
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  `
+import { Button, Container } from 'react-bootstrap'
 
-const Buttons = styled.section`
-  width: 41em;
-  display: flex;
-  justify-content: space-evenly;
-  position: relative;
-  top: 14%;
-  margin-bottom: 12em;
-  .login-button {
-    background-color: rgb(255, 255, 255, 0);
-    color: orange;
-    &:hover {
-      border: 3px solid orange;
-      color: white;
-      background-color: orange;
-    }
-  }
-  `
+/* <----------- styled components -----------> */
+// const Container = styled.div`
+//   background-image: url('https://i.imgur.com/ZtdwQ6Z.jpg');
+//   background-size: cover;
+//   height:100vh;
+// `
+// const Main = styled.div`
+//   // background-color: rgb(0,0,0,.8);
+//   height: 100vh;
+//   width: 100vw;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   color: white;
+//   `
+
+
 
 
 /* <------- end of styled components --------> */
-
 
 class Login extends Component {
     state={
@@ -65,41 +49,43 @@ class Login extends Component {
       console.log(this.props.currentUser)
      return (
        <Container>
-          <Buttons>
-            <button type="button" onClick={this.showRegisterModal}>
+          
+            <Button  onClick={this.showRegisterModal}>
               Register
-            </button>
-            <button className="login-button" type="button" onClick={this.showLoginModal}>
+            </Button>
+            <Button onClick={this.showLoginModal}>
               Login
-            </button>
-          </Buttons>
-          <Main>
-          {
-          this.state.registerModal
-          ? <RegisterModal
-              doSetCurrentUser={this.props.doSetCurrentUser}
-              handleRegister={this.props.handleRegister}
-              hideRegisterModal={ this.hideRegisterModal }
-              registerModal={ this.registerModal }
-              showLoginModal={ this.showLoginModal }
-            />
-          : <div />
-        }
-        {
-          this.state.loginModal
-          ? <LoginModal
-          isLogged={this.props.isLogged}
-          currentUser={this.props.currentUser}
-          doSetCurrentUser={this.props.doSetCurrentUser}
-          doLoginUser={this.props.doLoginUser}
-          hideLoginModal={ this.hideLoginModal }
-          showRegisterModal={ this.showRegisterModal }
-        />
-          : < div />
-        }
-         </Main>
+            </Button>
+          
+         
+            {
+              this.state.registerModal
+              ? <RegisterModal
+                  isLogged={this.props.isLogged}
+                  currentUser={this.props.currentUser}
+                  registerModal={this.RegisterModal}
+                  doSetCurrentUser={this.props.doSetCurrentUser}
+                  doRegisterUser={this.props.doRegisterUser}
+                  hideRegisterModal={ this.hideRegisterModal }
+                  showRegisterModal={this.showRegisterModal}
+                />
+              : <div/>
+            }
+            {
+              this.state.loginModal
+              ? <LoginModal
+                  isLogged={this.props.isLogged}
+                  currentUser={this.props.currentUser}
+                  doSetCurrentUser={this.props.doSetCurrentUser}
+                  doLoginUser={this.props.doLoginUser}
+                  hideLoginModal={ this.hideLoginModal }
+                  showLoginModal={ this.showLoginModal }
+                 />
+              : < div />
+            }
+          
         </Container>
         )
-    }
+      }
 }
 export default Login 

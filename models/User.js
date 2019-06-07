@@ -18,6 +18,7 @@ UserSchema.methods.validPassword = function(password){
 }
 
 UserSchema.pre("save", function(next){
+    console.log('this is hit')
     if(this.isModified("password")){
         this.password = this.hashPassword(this.password)
     }

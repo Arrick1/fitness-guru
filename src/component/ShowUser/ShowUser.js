@@ -4,15 +4,15 @@ import EditUser from '../EditUser/EditUser'
 
 
 class ShowUser extends Component {
-    state = {
-        user: {}
-      }
+    // state = {
+    //     user: {}
+    //   }
 
-    componentDidMount(){
-        this.doGetUser()
-        .then(({user})=> this.setState({user: user}))
+    // componentDidMount(){
+    //     this.doGetUser()
+    //     .then(({user})=> this.setState({user: user}))
 
-    }
+    // }
 
     changeHandler = e => {
         this.setState({
@@ -28,54 +28,54 @@ class ShowUser extends Component {
             console.log(err)
         }
     }
-    doEditUser = async () => {
-        try {
-          console.log(this.state.user._id, "<-- this.state.user._id");
-          const updateUser = await fetch(`/users/update/${this.state.user._id}`, {
-            method: "PUT",
-            credentials: "include",
-            body: JSON.stringify(this.state),
-            headers: {
-              "Content-type": "application/json"
-            }
-          });
-          const parsedUser = await updateUser.json();
-          console.log(
-            parsedUser,
-            "<-- parsedUser in doEditUser function in ShowUser.js"
-          );
-          return parsedUser;
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      submitEdit = e => {
-        e.preventDefault();
-        this.doEditUser().then(response => {
-          console.log(
-            response,
-            "<-- response in submitEdit function in ShowUser.js"
-          );
-          this.setState({
-            user: response.updateUser
-          });
-        });
-      };
+    // doEditUser = async () => {
+    //     try {
+    //       console.log(this.state.user._id, "<-- this.state.user._id");
+    //       const updateUser = await fetch(`/users/update/${this.state.user._id}`, {
+    //         method: "PUT",
+    //         credentials: "include",
+    //         body: JSON.stringify(this.state),
+    //         headers: {
+    //           "Content-type": "application/json"
+    //         }
+    //       });
+    //       const parsedUser = await updateUser.json();
+    //       console.log(
+    //         parsedUser,
+    //         "<-- parsedUser in doEditUser function in ShowUser.js"
+    //       );
+    //       return parsedUser;
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   };
+    //   submitEdit = e => {
+    //     e.preventDefault();
+    //     this.doEditUser().then(response => {
+    //       console.log(
+    //         response,
+    //         "<-- response in submitEdit function in ShowUser.js"
+    //       );
+    //       this.setState({
+    //         user: response.updateUser
+    //       });
+    //     });
+    //   };
     render (){
         return(
             <div>
-                <h1> Hello {this.state.user && this.state.user.username}</h1>
+                <h1> Hello {this.props.currentUser.username && this.props.currentUser.username}</h1>
                 <div>
-                <h2>Edit User Info</h2>
+                {/* <h2>Edit User Info</h2> */}
                     {
                         this.props.currentUser
                             && (this.props.currentUser._id === this.props.match.params.id)
-                                &&  <EditUser 
-                                        submitEdit={this.submitEdit}
-                                        changeHandler={this.changeHandler}
-                                        username={this.state.user.username}
-                                        password={this.state.password}
-                                    />
+                                // &&  <EditUser 
+                                //         // submitEdit={this.submitEdit}
+                                //         changeHandler={this.changeHandler}
+                                //         username={this.state.user.username}
+                                //         password={this.state.password}
+                                //     />
                     }
 
                 </div>

@@ -27,18 +27,24 @@ router.post('/register', async (req, res )=> {
 
 // This is the Login Route
 router.post('/login', async (req, res)=> {
+  console.log(req.body)
   try {
     const foundUser = await User.findOne({username: req.body.username})
-    console.log(foundUser)
-    if (bcrypt.compareSync(req.body.password, foundUser.password)) {
-      req.session.userId = foundUser._id;
-      req.session.logged = true;
-      res.json({
-        data: foundUser,
-        success: foundUser ? true : false
-      });
-    }else {
-      // res.json({message})
+    console.log(foundUser,"<==== found user")
+    console.log('hel', foundUser.validPassword(req.body.password))
+    if (foundUser){
+      if (foundUser.validPassword(req.body.password)) {
+        req.session.userId = foundUser._id;
+        req.session.logged = true;
+        console.log("password is correct and sending")
+        res.json({
+          data: foundUser,
+          success: foundUser ? true : false
+        });
+      }else {
+        // res.json({message})
+        res.json({error: "problem logging in"})
+      }
     }
   } catch (err) {
     res.json(err)
@@ -60,6 +66,20 @@ router.get('/logout', (req, res) => {
   })
 })
 
+// This show route for all users
+router.get('/index', async (req, res) => {
+  try {
+    const foundUsers = await User.find({});
+    res.json({
+      users: foundUsers,
+      // user: findUser
+    })
+    
+  } catch (err) {
+    res.json({err})
+    
+  }
+})
 
 // This is the users routes with workouts
 router.get('/profile', async (req, res) => {
@@ -72,6 +92,8 @@ router.get('/profile', async (req, res) => {
     res.json({err})
   }
 })
+
+
 
 // This is the show route
 router.get('/:id', async (req, res) => {
@@ -88,14 +110,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // This is the Edit Route
-router.get('/:id/edit', logUser, async (req, res) => {
+router.put('/:id/edit', async (req, res) => {
+  console.log("updating")
+  delete req.body.logged
   try {
-    const user = await User.findById(req.params.id)
-    res.json({
-      user,
-      currentUser: req.session.userId,
-      logged: req.session.logged
-    })
+    const updatedUser = await User.findById(req.params.id)
+    console.log(updatedUser, '----1')
+    updatedUser.username = (req.body.username.length > 0) ? req.body.username : updatedUser.username
+    updatedUser.password = (req.body.password.length > 0) ? req.body.password : updatedUser.password
+    await updatedUser.save()
+    res.json(updatedUser)
   } catch (err) {
     res.json({err})
   }
