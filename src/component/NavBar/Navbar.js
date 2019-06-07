@@ -43,20 +43,7 @@ return(
 
       }
     </Nav.Link>
-
-
-
   </Nav>
-  <div>
-
-          {
-            currentUser.username && <NavLink to={`${routes.EDIT}/${currentUser._id} `}exact activeClassName='selected' ><button className="navButton">Edit</button></NavLink> 
-          }
-
-            
-
-    </div>
- 
 </Navbar>
 )
 }

@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
 import parse from 'html-react-parser'
 
+/* <------- Imported Components --------> */
+import Layout from '../Layout'
+
 
 class Profile extends Component {
     state ={
         workouts: []
     }
-    changeHandler = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-    doGetUser = async () => {
-        try {
-            const user = await fetch(`/users/${this.props.match.params.id}`)
-            const parsedUser = await user.json()
-            return parsedUser
-        } catch (err) {
-            console.log(err)
-        }
-    }
+
+
+    // doGetUser = async () => {
+    //     try {
+    //         const user = await fetch(`/users/${this.props.match.params.id}`)
+    //         const parsedUser = await user.json()
+    //         return parsedUser
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
     componentDidMount () {
         this.getWorkouts()
         console.log(this.state.workouts)
@@ -50,8 +50,10 @@ class Profile extends Component {
     render () {
         return(
             <div>
+                   <Layout/>
                     <h1> Hello {this.props.currentUser.username && this.props.currentUser.username}</h1>
-                {this.state.workouts.map((w, i) => {
+
+                {this.state.workouts && this.state.workouts.map((w, i) => {
                     const videoLink = w.description.split('https')[1] && `https${w.description.split('https')[1].replace('watch?v=', 'embed/').replace('</p>', '')}`
                     return (
                         <div key={i}>

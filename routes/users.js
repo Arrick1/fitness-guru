@@ -11,7 +11,7 @@ const User = require('../models/User')
 // }
 
 
-// This is the Register route
+/* <------- Register User Route--------> */
 router.post('/register', async (req, res )=> {
   try {
     const createdUser = await User.create(req.body);
@@ -30,7 +30,7 @@ router.post('/register', async (req, res )=> {
   }
 })
 
-// This is the Login Route
+/* <------- Login User Route-------> */
 router.post('/login', async (req, res)=> {
   console.log(req.body)
   try {
@@ -56,7 +56,7 @@ router.post('/login', async (req, res)=> {
 })
 
 
-// This is the Logout route
+/* <------- Logout User Route--------> */
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if(err){
@@ -70,7 +70,7 @@ router.get('/logout', (req, res) => {
   })
 })
 
-// This show route for all users
+/* <------- Show Route for all Users--------> */
 router.get('/index', async (req, res) => {
   try {
     const foundUsers = await User.find({});
@@ -78,10 +78,8 @@ router.get('/index', async (req, res) => {
       users: foundUsers,
       // user: findUser
     })
-    
   } catch (err) {
-    res.json({err})
-    
+    res.json({err}) 
   }
 })
 
@@ -129,36 +127,6 @@ router.put('/:id/edit', async (req, res) => {
   }
 });
 
-
-
-// router.post('/',  async (req, res) => {
-//  try {
-//    const user = await User.create(req.body)
-//    res.json({user})
-//  } catch (err) {
-//    res.json({err})  
-//  }
-// });
-
-
-
-router.post("/add", async(req,res)=>{
-  try{
-    const foundUser = await User.findById(req.session.userId)
-    const workout = { 
-    }
-    foundUser.workouts.push(req.body)
-    foundUser.save()
-    res.json({
-      user: foundUser,
-      success: true,
-      message: "workout has been added"
-    })
-  }catch(err){
-    console.log(err)
-  }
-})
-
 router.put('/update/:id', async (req, res) => {
   const userId = req.session.userId || req.params.id
   try {
@@ -177,21 +145,35 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
-router.delete('/delete/id', async (req, res) => {
-  try {
-    const user = await User.findById(req.session.userId)
-    user.workouts.splice(req.params.id, 1)
-    user.save()
+router.post("/add", async(req,res)=>{
+  try{
+    const foundUser = await User.findById(req.session.userId)
+    const workout = { 
+    }
+    foundUser.workouts.push(req.body)
+    foundUser.save()
     res.json({
-      user,
-      success: true
+      user: foundUser,
+      success: true,
+      message: "workout has been added"
     })
-    
-  } catch (err) {
-    res.json({err})
-    
+  }catch(err){
+    console.log(err)
   }
-  return res.json({data: 'Received a GET HTTP method users'});
+})
+
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+    req.sessions.destroy()
+    res.json({
+      data: user, 
+      success: true
+    })  
+  } catch (err) {
+    res.json({err})  
+  }
 });
 
 module.exports = router;

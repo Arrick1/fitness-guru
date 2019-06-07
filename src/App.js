@@ -151,6 +151,13 @@ class App extends Component {
     )
   })
 
+  resetHandler = ()=>{
+    this.setState({
+      currentUser:{},
+      logged: false
+    })
+  }
+
 
   render() {
     console.log(this.state.exercise)
@@ -161,7 +168,7 @@ class App extends Component {
               doLogout={this.doLogout} 
               currentUser={currentUser}
           />
-          <Layout></Layout>
+          <Layout/>
           <Switch>
             <Route exact path={routes.ROOT} render={()=> <Home/>}/> 
             <Route exact path={routes.LOGIN} render={()=> 
@@ -179,11 +186,13 @@ class App extends Component {
                 currentUser={currentUser}
               />}
             />
-            <Route exact path={`${routes.EDIT}/:id`} render={()=> 
+            <Route exact path={`${routes.EDIT}/:id`} render={(props)=> 
               <EditUser 
+                {...props}
                 isLogged={this.isLogged}
                 currentUser={currentUser}
                 doSetCurrentUser={this.doSetCurrentUser}
+                reset={this.resetHandler}
               />} 
             />
             <Route exact path={routes.EXERCISE} render={() => 

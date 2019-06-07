@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
+
+
+/* <------- Imported Components --------> */
+import Layout from '../Layout'
 import EditUserModal from './EditUserModal';
+
+
 
 /* <------- React of styled components --------> */
 import { Button, Form, Col, Row, Container} from 'react-bootstrap'
@@ -19,6 +25,8 @@ class EditUser extends Component {
     hideEditUserModal = () => {
       this.setState({ EditUserModal: false })
     }
+
+    /* <------- Edit User Function--------> */
     doEditUser = async (info) => {
         const { currentUser, doSetCurrentUser} = this.props 
         try {
@@ -47,9 +55,27 @@ class EditUser extends Component {
           console.log(err);
         }
       };
+      /* <------- Delete User Function --------> */
+      doDeleteUser = async () => {
+        const {currentUser} = this.props
+        try {
+        const deleteUser = await fetch(`/users/${currentUser._id}`, {
+          method: 'DELETE'
+        })
+        const parsedUser = await deleteUser.json()
+        if (parsedUser.success){
+            localStorage.clear()
+            this.props.reset()
+            this.props.history.push("/login")
+        }
+      } catch (err) {
+        console.log(err)
+        }
+      }
     render(){
         return (
           <div> 
+            <Layout/>
 
              <Button  onClick={this.showEditUserModal}>Edit</Button>
              {
@@ -65,8 +91,10 @@ class EditUser extends Component {
                  : <div></div>
 
              }
+             <Button onClick={this.doDeleteUser}> Delete Account</Button>
 
           </div>
+
         )
     }
 } 
