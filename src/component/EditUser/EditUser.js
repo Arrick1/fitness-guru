@@ -1,27 +1,32 @@
 import React, { Component } from 'react'
 import EditUserModal from './EditUserModal';
 
+/* <------- React of styled components --------> */
+import { Button, Form, Col, Row, Container} from 'react-bootstrap'
+
+
 
 class EditUser extends Component {
     state={
         username:'',
         password: '',
-        logged: false
+        logged: false,
+        EditUserModal: false,
     }
-    changeHandler = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+    showEditUserModal = () => {
+      this.setState({ EditUserModal: true})
     }
-    doEditUser = async (e) => {
-        e.preventDefault()
+    hideEditUserModal = () => {
+      this.setState({ EditUserModal: false })
+    }
+    doEditUser = async (info) => {
         const { currentUser, doSetCurrentUser} = this.props 
         try {
           console.log(currentUser._id, "<-- this.state.user._id");
           const updateUser = await fetch(`/users/${currentUser._id}/edit`, {
             method: "PUT",
             credentials: "include",
-            body: JSON.stringify(this.state),
+            body: JSON.stringify(info),
             headers: {
               "Content-type": "application/json"
             }
@@ -30,56 +35,38 @@ class EditUser extends Component {
           console.log(parsedUser, "<-- parsedUser in doEditUser function in ShowUser.js");
           if(parsedUser.data){
               doSetCurrentUser(parsedUser.data)
+              localStorage.setItem("current", JSON.stringify(parsedUser.data))
               this.setState({
-                  logged: true
+                  logged: true,
+                  currentUser: parsedUser.data
               })
-          }
-          return parsedUser;
+          }else{
+            console.log('Update Failed')
+            }
         } catch (err) {
           console.log(err);
         }
       };
-    //   submitEdit = e => {
-    //     e.preventDefault();
-    //     this.doEditUser().then(response => {
-    //       console.log(
-    //         response,
-    //         "<-- response in submitEdit function in ShowUser.js"
-    //       );
-    //       this.props.doSetCurrentUser(response.updateUser)
-    //       localStorage.setItem("current", JSON.stringify(response.updateUser))
-    //       this.setState({
-    //         user: response.updateUser
-    //       });
-    //     });
-    //   };
     render(){
         return (
-            <EditUserModal 
-                isLogged={this.props.isLogged}
-                doEditUser={this.doEditUser}/>
+          <div> 
 
+             <Button  onClick={this.showEditUserModal}>Edit</Button>
+             {
+               this.state.EditUserModal
+               ? <EditUserModal 
+                 isLogged={this.props.isLogged}
+                 currentUser={this.props.currentUser}
+                 doSetCurrentUser={this.props.doSetCurrentUser}
+                 doEditUser={this.doEditUser}
+                 hideEditUserModal={ this.hideEditUserModal }
+                 showEditUserModal={this.showEditUserModal}
+                 />
+                 : <div></div>
 
+             }
 
-            // <div className="container">
-            //     <form onSubmit={e => this.doEditUser(e)}>
-            //         <input 
-            //             value={this.props.username}
-            //             type="username" 
-            //             name="username" 
-            //             onChange={e => this.changeHandler(e)}/>
-            //         <input 
-            //             value={this.props.password}
-            //             type="password" 
-            //             name="password" 
-            //             onChange={e => this.changeHandler(e)}/>
-            //         <button
-            //             type="submit"
-            //             > Update
-            //         </button>
-            //     </form>
-            // </div>
-
+          </div>
         )
     }
 } 

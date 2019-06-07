@@ -11,8 +11,8 @@ import { Navbar, Nav, Button, NavDropdown, Container } from 'react-bootstrap'
 const Navi  = ({currentUser, doLogout}) => {
   console.log(currentUser)
 return(
-<Navbar bg="dark" variant="dark" >
-  <Container>
+<Navbar bg="dark" variant="dark" fixed="top">
+
   <NavLink to={routes.ROOT} >
     <Navbar.Brand>Fitness-Guru</Navbar.Brand>
   </NavLink>
@@ -56,7 +56,7 @@ return(
             
 
     </div>
-    </Container>
+ 
 </Navbar>
 )
 }
