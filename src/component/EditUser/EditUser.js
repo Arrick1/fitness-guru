@@ -40,10 +40,9 @@ class EditUser extends Component {
             }
           });
           const parsedUser = await updateUser.json();
-          console.log(parsedUser, "<-- parsedUser in doEditUser function in ShowUser.js");
-          if(parsedUser.data){
-              doSetCurrentUser(parsedUser.data)
-              localStorage.setItem("current", JSON.stringify(parsedUser.data))
+          if(parsedUser){
+              doSetCurrentUser(parsedUser)
+              localStorage.setItem("current", JSON.stringify(parsedUser))
               this.setState({
                   logged: true,
                   currentUser: parsedUser.data
@@ -76,7 +75,6 @@ class EditUser extends Component {
         return (
           <div> 
             <Layout/>
-
              <Button  onClick={this.showEditUserModal}>Edit</Button>
              {
                this.state.EditUserModal

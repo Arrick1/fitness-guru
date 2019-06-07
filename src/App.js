@@ -114,6 +114,13 @@ class App extends Component {
     })
     this.props.history.push(routes.LOGIN)
   }
+  resetHandler = ()=>{
+    this.setState({
+      currentUser: {},
+      logged: false
+    })
+  }
+
 
   getExercise = async() => {
     try {
@@ -151,12 +158,6 @@ class App extends Component {
     )
   })
 
-  resetHandler = ()=>{
-    this.setState({
-      currentUser:{},
-      logged: false
-    })
-  }
 
 
   render() {
@@ -164,6 +165,7 @@ class App extends Component {
     const{ exercise, currentUser, message } = this.state
     return (
         <div>
+          <Layout></Layout>
           <NavBar 
               doLogout={this.doLogout} 
               currentUser={currentUser}

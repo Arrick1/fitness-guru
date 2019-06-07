@@ -117,12 +117,13 @@ router.put('/:id/edit', async (req, res) => {
   delete req.body.logged
   try {
     const updatedUser = await User.findById(req.params.id)
-    console.log(updatedUser, '----1')
+    // console.log(updatedUser, '----1')
     updatedUser.name      = (req.body.name.length > 0) ? req.body.name : updatedUser.name
     updatedUser.email     = (req.body.email.length > 0) ? req.body.email : updatedUser.email
     updatedUser.username  = (req.body.username.length > 0) ? req.body.username : updatedUser.username
     updatedUser.password  = (req.body.password.length > 0) ? req.body.password : updatedUser.password
     await updatedUser.save()
+    console.log(updatedUser)
     res.json(updatedUser)
   } catch (err) {
     res.json({err})
