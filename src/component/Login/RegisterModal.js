@@ -9,12 +9,11 @@ import {Modal, Button, Form, FormGroup} from 'react-bootstrap'
 
 class RegisterModal extends Component {
     state = {
-      name: '',
       username:'',
       email: '',
       password: '',
-      verify_Password:'',
-      logged: false,
+      // verify_Password:'',
+      logged: false
     }
       
     handleChange = e => {
@@ -23,30 +22,13 @@ class RegisterModal extends Component {
         })
     }
 
-    loginHandler = (e) =>{
+    registerHandler = (e) =>{
       e.preventDefault();
       this.props.doRegisterUser(this.state)
   }
-    // doRegisterUser = async (e) => {
-    //     e.preventDefault()
-    //     const registerResponse = await fetch('/users/', {
-    //           method: "POST",
-    //           credentials: 'include',
-    //           body: JSON.stringify(this.state),
-    //           headers: {
-    //             'Content-Type' : 'application/json'
-    //           }
-    //     }) 
-    //     const parsedResponse = await registerResponse.json()
-    //         if(parsedResponse.user){
-    //           this.props.doSetCurrentUser(parsedResponse.data)
-    //           this.setState({
-    //             logged: true,
-    //           })
-    //         }
-    // }
-    render(){
-        const { username, password, name, email } = this.state
+  render(){
+        const { username, password, email } = this.state
+        console.log(this.props.currentUser)
         return(
           this.props.isLogged
             ? <Redirect to={`/profile/${this.props.currentUser._id}`}/>
@@ -60,16 +42,6 @@ class RegisterModal extends Component {
                 </Modal.Header>
             <Modal.Body>
               <Form>
-              <FormGroup>
-                  <Form.Label>Name</Form.Label>
-                    <input
-                      name="name" 
-                      type="text" 
-                      placeholder="Enter Name" 
-                      value={name} 
-                      onChange={e => this.handleChange(e)}
-                    />
-                </FormGroup>
                 <Form.Group>
                   <Form.Label>Username</Form.Label>
                     <input
@@ -103,7 +75,7 @@ class RegisterModal extends Component {
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.props.doRegisterUser}>Register</Button>
+              <Button onClick={this.registerHandler}>Register</Button>
               <Button onClick={this.props.hideRegisterModal}>Cancel</Button>
             </Modal.Footer>
           </Modal>

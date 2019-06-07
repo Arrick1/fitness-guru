@@ -47,24 +47,31 @@ class App extends Component {
       currentUser: user
     })
 
-  doRegisterUser = async (e) => {
-    e.preventDefault()
+  doRegisterUser = async (info) => {
+ 
     const registerResponse = await fetch('/users/register', {
           method: "POST",
           credentials: 'include',
-          body: JSON.stringify(this.state),
+          body: JSON.stringify(info),
           headers: {
             'Content-Type' : 'application/json'
           }
     }) 
     const parsedResponse = await registerResponse.json()
     if(parsedResponse.data){
-      this.props.doSetCurrentUser(parsedResponse.data)
+      this.doSetCurrentUser(parsedResponse.data)
+      localStorage.setItem("current", JSON.stringify(parsedResponse.data))
       this.setState({
         logged: true,
         currentUser: parsedResponse.data
       })
-    }
+    } else{
+      console.log('not logged in')
+        this.setState({
+            message: 'Invalid Login Credentials'
+        })
+      }
+     
   }
   doLoginUser = async (info) => {
     const loginResponse = await fetch('/users/login', {

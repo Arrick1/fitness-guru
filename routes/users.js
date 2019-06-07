@@ -4,20 +4,25 @@ const bcrypt = require("bcryptjs")
 
 const User = require('../models/User')
 
-const logUser = (req, res, next) => {
-  if(req.session.logged) {
-      next()
-  }
-}
+// const logUser = (req, res, next) => {
+//   if(req.session.logged) {
+//       next()
+//   }
+// }
 
 
 // This is the Register route
 router.post('/register', async (req, res )=> {
   try {
     const createdUser = await User.create(req.body);
-    req.session.userId = createdUser._id
+    console.log(createdUser)
+    if(createdUser){
+      req.session.logged = true;
+      req.session.userId = createdUser._id
+    }
     res.json({
       data: createdUser,
+      logged: req.session.logged,
       success: true
     })   
   } catch (err) {
@@ -31,7 +36,6 @@ router.post('/login', async (req, res)=> {
   try {
     const foundUser = await User.findOne({username: req.body.username})
     console.log(foundUser,"<==== found user")
-    console.log('hel', foundUser.validPassword(req.body.password))
     if (foundUser){
       if (foundUser.validPassword(req.body.password)) {
         req.session.userId = foundUser._id;
@@ -127,14 +131,14 @@ router.put('/:id/edit', async (req, res) => {
 
 
 
-router.post('/',  async (req, res) => {
- try {
-   const user = await User.create(req.body)
-   res.json({user})
- } catch (err) {
-   res.json({err})  
- }
-});
+// router.post('/',  async (req, res) => {
+//  try {
+//    const user = await User.create(req.body)
+//    res.json({user})
+//  } catch (err) {
+//    res.json({err})  
+//  }
+// });
 
 
 
