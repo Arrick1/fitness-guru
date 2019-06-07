@@ -34,7 +34,7 @@ class RegisterModal extends Component {
           this.props.isLogged
             ? <Redirect to={`/profile/${this.props.currentUser._id}`}/>
             : <Modal 
-                size="sm"
+                centered
                 show={this.props.showRegisterModal} 
                 onHide={this.props.hideRegisterModal}>
                 <Modal.Header><Modal.Title>Register</Modal.Title></Modal.Header>

@@ -39,4 +39,11 @@
  .dropdown-item .nav-link {
    color: black!important;
    text-align: center;
- } 
+ }
+
+ .modal {
+   background-color: transparent;
+   box-shadow: none;
+   height: 100vh !important;
+   max-height: 100vh;
+ }
