@@ -31,7 +31,7 @@ class EditUserModal extends Component {
             this.props.isLogged
             ? <Redirect to={`/profile/${this.props.currentUser._id}`}/>
             : <Modal 
-                size="sm"
+                dialogClassName="modal-90w"
                 show={this.props.showEditUserModal} 
                 onHide={this.props.EditUserModal}
               >

@@ -118,12 +118,29 @@ router.put('/:id/edit', async (req, res) => {
   try {
     const updatedUser = await User.findById(req.params.id)
     console.log(updatedUser, '----1')
-    updatedUser.username = (req.body.username.length > 0) ? req.body.username : updatedUser.username
-    updatedUser.password = (req.body.password.length > 0) ? req.body.password : updatedUser.password
+    updatedUser.name      = (req.body.name.length > 0) ? req.body.name : updatedUser.name
+    updatedUser.email     = (req.body.email.length > 0) ? req.body.email : updatedUser.email
+    updatedUser.username  = (req.body.username.length > 0) ? req.body.username : updatedUser.username
+    updatedUser.password  = (req.body.password.length > 0) ? req.body.password : updatedUser.password
     await updatedUser.save()
     res.json(updatedUser)
   } catch (err) {
     res.json({err})
+  }
+});
+
+
+/* <------- Delete User Route --------> */
+router.delete('/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id)
+    req.sessions.destroy()
+    res.json({
+      data: user, 
+      success: true
+    })  
+  } catch (err) {
+    res.json({err})  
   }
 });
 
@@ -162,19 +179,6 @@ router.post("/add", async(req,res)=>{
   }
 })
 
-
-router.delete('/:id', async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id)
-    req.sessions.destroy()
-    res.json({
-      data: user, 
-      success: true
-    })  
-  } catch (err) {
-    res.json({err})  
-  }
-});
 
 module.exports = router;
 
