@@ -97,6 +97,26 @@ router.get('/profile', async (req, res) => {
 
 
 
+// This is the users routes with workouts
+
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.session.userId);
+    console.log(user, '-----> this is the delete user')
+    user.workout.splice(req.params.id, 1)
+    user.save()
+    console.log(user, '------>user after workout delete')
+    res.json({
+      user,
+      success: true, 
+      message: 'workout deleted'
+    })   
+  } catch (err) {
+    console.log(err)
+  }
+
+});
+
 // This is the show route
 router.get('/:id', async (req, res) => {
   try {

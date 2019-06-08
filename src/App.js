@@ -157,9 +157,6 @@ class App extends Component {
     index !== i
     )
   })
-
-
-
   render() {
     console.log(this.state.exercise)
     const{ exercise, currentUser, message } = this.state

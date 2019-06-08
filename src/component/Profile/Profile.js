@@ -9,17 +9,6 @@ class Profile extends Component {
     state ={
         workouts: []
     }
-
-
-    // doGetUser = async () => {
-    //     try {
-    //         const user = await fetch(`/users/${this.props.match.params.id}`)
-    //         const parsedUser = await user.json()
-    //         return parsedUser
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
     componentDidMount () {
         this.getWorkouts()
         console.log(this.state.workouts)
