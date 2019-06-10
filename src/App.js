@@ -9,6 +9,7 @@ import Login from './component/Login/Login'
 import Exercise from './component/Exercise/Exercise'
 import Profile from "./component/Profile/Profile"
 import Home from './component/Home/Home'
+import Community from './component/Community/Community'
 
 
 import * as routes from './constants/routes'
@@ -74,8 +75,6 @@ class App extends Component {
             message: 'Invalid Login Credentials'
         })
       }
-     
-  
     }
 
   doLoginUser = async (info) => {
@@ -114,6 +113,7 @@ class App extends Component {
     })
     this.props.history.push(routes.LOGIN)
   }
+
   resetHandler = ()=>{
     this.setState({
       currentUser: {},
@@ -157,6 +157,9 @@ class App extends Component {
     index !== i
     )
   })
+
+
+
   render() {
     console.log(this.state.exercise)
     const{ exercise, currentUser, message } = this.state
@@ -170,6 +173,7 @@ class App extends Component {
           <Layout/>
           <Switch>
             <Route exact path={routes.ROOT} render={()=> <Home/>}/> 
+            <Route exact path={routes.COMMUNITY} render={()=> <Community/>}/> 
             <Route exact path={routes.LOGIN} render={()=> 
               <Login 
                 isLogged={this.state.logged}

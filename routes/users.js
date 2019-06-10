@@ -114,7 +114,16 @@ router.delete("/delete/:id", async (req, res) => {
   } catch (err) {
     console.log(err)
   }
-
+//   try {
+// //     const user = await User.findById(req.session.dbId);
+// //     console.log(user, "user in delete route");
+// //     user.games.splice(req.params.id, 1);
+// //     user.save();
+// //     console.log(user);
+// //     res.json({ user, success: true, message: "game deleted" });
+// //   } catch (err) {
+// //     console.log(err);
+//   }
 });
 
 // This is the show route
@@ -160,7 +169,7 @@ router.delete('/:id', async (req, res) => {
       data: user, 
       success: true
     })  
-  } catch (err) {
+   } catch (err) {
     res.json({err})  
   }
 });

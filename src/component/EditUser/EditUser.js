@@ -62,7 +62,7 @@ class EditUser extends Component {
           method: 'DELETE'
         })
         const parsedUser = await deleteUser.json()
-        if (parsedUser.success){
+        if (parsedUser){
             localStorage.clear()
             this.props.reset()
             this.props.history.push("/login")

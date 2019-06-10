@@ -14,7 +14,11 @@ return(
   <NavLink to={routes.ROOT}><Navbar.Brand>Fitness-Guru</Navbar.Brand></NavLink>
   <Nav className="mr-auto">
     <Nav.Link className="link"><NavLink to={routes.EXERCISE}>Exercises</NavLink>  </Nav.Link>
+    <Nav.Link className="link"><NavLink to={routes.COMMUNITY}>Community</NavLink>  </Nav.Link>
+    <Nav.Link></Nav.Link>
+      
     <Nav.Link>
+      
       {
         currentUser.username
         ? <NavDropdown title="Dashboard" id="basic-nav-dropdown">

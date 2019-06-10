@@ -9,6 +9,8 @@ class Profile extends Component {
     state ={
         workouts: []
     }
+
+
     componentDidMount () {
         this.getWorkouts()
         console.log(this.state.workouts)
