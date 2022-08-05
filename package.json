@@ -16,7 +16,7 @@
     "http-errors": "~1.6.3",
     "jquery": "^3.4.1",
     "materialize-css": "^1.0.0-rc.2",
-    "mongoose": "^5.5.7",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.1",
     "node-fetch": "^2.5.0",
     "popper.js": "^1.15.0",
